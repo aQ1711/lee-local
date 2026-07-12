@@ -66,26 +66,44 @@ body.password .password-main {
   inset: 0;
 }
 
-.luxury-coming-soon__overlay {
+/* Pushing the alpha-darkening overlay high enough to guarantee
+   contrast against bright footage was also erasing the video itself
+   (pure opacity over near-white pixels just goes to flat gray/navy,
+   whichever way it's tuned -- there's no setting that both hides
+   bright pixels AND keeps the footage visibly moving). This tint
+   layer solves that properly: mix-blend-mode: color replaces the
+   video's hue/saturation with navy while leaving its actual
+   luminance (brightness/detail/motion) untouched, so the footage
+   stays visibly playing underneath, just shifted toward navy instead
+   of staying silver/white. */
+.luxury-coming-soon__tint {
   position: absolute;
   inset: 0;
   z-index: 2;
-  /* This footage is bright/high-key (lots of silver metal and pale
-     fabric) -- a moderate-opacity navy wash over near-white pixels
-     still reads as pale gray, not blue. Pushed the floor much higher
-     across the board (was 0.45/0.68/0.85, now 0.62/0.8/0.92) so the
-     navy cast is unmistakable everywhere, not just at the vignette's
-     darkest edges -- there's still a lighter-at-center/darker-at-edge
-     shape, but "lighter" now still reads as clearly tinted navy. */
+  background: #010018;
+  opacity: 0.6;
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+
+/* This is now just a light vignette on top of the tint above --
+   darker at the edges/bottom for text legibility, not the thing
+   doing the color work anymore. Much lower values than earlier
+   attempts on purpose, since the tint layer already carries the
+   navy cast everywhere. */
+.luxury-coming-soon__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
   background:
-    radial-gradient(ellipse at center, rgba(1, 0, 24, 0.62) 0%, rgba(1, 0, 24, 0.8) 55%, rgba(1, 0, 24, 0.92) 100%),
-    linear-gradient(180deg, rgba(1, 0, 24, 0.78) 0%, rgba(1, 0, 24, 0.62) 30%, rgba(1, 0, 24, 0.7) 60%, rgba(1, 0, 24, 0.95) 100%);
+    radial-gradient(ellipse at center, rgba(1, 0, 24, 0.1) 0%, rgba(1, 0, 24, 0.3) 55%, rgba(1, 0, 24, 0.55) 100%),
+    linear-gradient(180deg, rgba(1, 0, 24, 0.25) 0%, rgba(1, 0, 24, 0.1) 30%, rgba(1, 0, 24, 0.18) 60%, rgba(1, 0, 24, 0.65) 100%);
 }
 
 .luxury-coming-soon__grain {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 4;
   opacity: 0.04;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
