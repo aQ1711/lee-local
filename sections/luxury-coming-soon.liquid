@@ -107,74 +107,97 @@
           alt: '',
           class: 'luxury-coming-soon__image'
       }}
-    {%- else -%}
-      {{ 'lifestyle-1' | placeholder_svg_tag: 'luxury-coming-soon__image luxury-coming-soon__placeholder' }}
     {%- endif -%}
+    {%- comment -%}
+      No "else" placeholder here on purpose: Shopify's generic gray
+      placeholder graphic looks broken/unfinished on a luxury landing
+      page. With no video or image set, the navy background-color
+      (from the color scheme) plus the overlay and grain below carry
+      the whole scene on their own -- deliberate, not missing.
+    {%- endcomment -%}
     <div class="luxury-coming-soon__overlay"></div>
     <div class="luxury-coming-soon__grain"></div>
   </div>
 
-  <password-modal class="luxury-coming-soon__password-modal">
-    <details class="password-modal modal">
-      <summary class="modal__toggle luxury-coming-soon__password-trigger" aria-haspopup="dialog">
-        <div class="modal__toggle-open">
-          {{ 'general.password_page.login_password_button' | t }}
-        </div>
-        <div class="modal__toggle-close" aria-hidden="true">
-          <span class="svg-wrapper">
-            {{- 'icon-close.svg' | inline_asset_content -}}
-          </span>
-        </div>
-      </summary>
-      <div
-        class="modal__content"
-        role="dialog"
-        aria-labelledby="LuxuryComingSoonPasswordHeading"
-        aria-modal="true"
-      >
-        <div class="password-modal__content" tabindex="-1">
-          <button type="button" class="modal__close-button link" aria-label="{{ 'accessibility.close' | t }}">
+  {%- comment -%}
+    This is Shopify's native storefront-password login mechanism.
+    It's only relevant when this section is rendered on Shopify's own
+    templates/password.json (i.e. real store-wide password protection
+    is turned on) -- there, a visitor genuinely needs a way to submit
+    the store password, and this modal is that form.
+
+    When this same section is used as the plain, ungated homepage
+    (templates/index.json), there is nothing to "enter" and no
+    password to submit, so this trigger is hidden via the
+    show_password_entry setting (defaulted off there). Leaving it on
+    in that context was surfacing Shopify's own bot-protection
+    (a captcha challenge on the password form) with no valid password
+    to actually satisfy it -- a broken, unprofessional dead end for
+    visitors, not a bug in this theme's code.
+  {%- endcomment -%}
+  {%- if section.settings.show_password_entry -%}
+    <password-modal class="luxury-coming-soon__password-modal">
+      <details class="password-modal modal">
+        <summary class="modal__toggle luxury-coming-soon__password-trigger" aria-haspopup="dialog">
+          <div class="modal__toggle-open">
+            {{ 'general.password_page.login_password_button' | t }}
+          </div>
+          <div class="modal__toggle-close" aria-hidden="true">
             <span class="svg-wrapper">
               {{- 'icon-close.svg' | inline_asset_content -}}
             </span>
-          </button>
-          <h2 class="password-modal__content-heading" id="LuxuryComingSoonPasswordHeading">
-            {{ 'general.password_page.login_form_heading' | t }}
-          </h2>
-          {%- form 'storefront_password', class: 'password-form' -%}
-            <div class="password-field field{% if form.errors %} password-field--error{% endif %}">
-              <input
-                type="password"
-                name="password"
-                id="LuxuryComingSoonPassword"
-                class="field__input"
-                autocomplete="current-password"
-                {% if form.errors %}
-                  aria-invalid="true"
-                  aria-describedby="LuxuryComingSoonPassword-error"
-                {%- endif -%}
-                placeholder="{{ 'general.password_page.login_form_password_placeholder' | t }}"
-              >
-              <label class="field__label" for="LuxuryComingSoonPassword">
-                {{- 'general.password_page.login_form_password_placeholder' | t -}}
-              </label>
-              {%- if form.errors -%}
-                <div id="LuxuryComingSoonPassword-error" role="status">
-                  <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-                  <span class="form__message">
-                    {{ 'general.password_page.login_form_error' | t -}}
-                  </span>
-                </div>
-              {%- endif -%}
-            </div>
-            <button name="commit" class="password-button button button--outline">
-              {{ 'general.password_page.login_form_submit' | t }}
+          </div>
+        </summary>
+        <div
+          class="modal__content"
+          role="dialog"
+          aria-labelledby="LuxuryComingSoonPasswordHeading"
+          aria-modal="true"
+        >
+          <div class="password-modal__content" tabindex="-1">
+            <button type="button" class="modal__close-button link" aria-label="{{ 'accessibility.close' | t }}">
+              <span class="svg-wrapper">
+                {{- 'icon-close.svg' | inline_asset_content -}}
+              </span>
             </button>
-          {%- endform -%}
+            <h2 class="password-modal__content-heading" id="LuxuryComingSoonPasswordHeading">
+              {{ 'general.password_page.login_form_heading' | t }}
+            </h2>
+            {%- form 'storefront_password', class: 'password-form' -%}
+              <div class="password-field field{% if form.errors %} password-field--error{% endif %}">
+                <input
+                  type="password"
+                  name="password"
+                  id="LuxuryComingSoonPassword"
+                  class="field__input"
+                  autocomplete="current-password"
+                  {% if form.errors %}
+                    aria-invalid="true"
+                    aria-describedby="LuxuryComingSoonPassword-error"
+                  {%- endif -%}
+                  placeholder="{{ 'general.password_page.login_form_password_placeholder' | t }}"
+                >
+                <label class="field__label" for="LuxuryComingSoonPassword">
+                  {{- 'general.password_page.login_form_password_placeholder' | t -}}
+                </label>
+                {%- if form.errors -%}
+                  <div id="LuxuryComingSoonPassword-error" role="status">
+                    <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                    <span class="form__message">
+                      {{ 'general.password_page.login_form_error' | t -}}
+                    </span>
+                  </div>
+                {%- endif -%}
+              </div>
+              <button name="commit" class="password-button button button--outline">
+                {{ 'general.password_page.login_form_submit' | t }}
+              </button>
+            {%- endform -%}
+          </div>
         </div>
-      </div>
-    </details>
-  </password-modal>
+      </details>
+    </password-modal>
+  {%- endif -%}
 
   <div class="luxury-coming-soon__content">
     <div class="luxury-coming-soon__content-inner">
@@ -284,6 +307,13 @@
       "type": "image_picker",
       "id": "background_image",
       "label": "t:sections.luxury-coming-soon.settings.background_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_password_entry",
+      "label": "t:sections.luxury-coming-soon.settings.show_password_entry.label",
+      "info": "t:sections.luxury-coming-soon.settings.show_password_entry.info",
+      "default": true
     },
     {
       "type": "text",

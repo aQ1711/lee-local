@@ -373,6 +373,10 @@
         "background_image": {
           "label": "Background image (used if no video, or while video loads)"
         },
+        "show_password_entry": {
+          "label": "Show \"Enter using password\" link",
+          "info": "Only needed if Shopify's own store-wide password protection is turned on. Leave off when this section is used as a plain, ungated page — with it off, there's no login link, so no password to get wrong and no captcha to hit."
+        },
         "pre_label": {
           "label": "Pre-label"
         },
