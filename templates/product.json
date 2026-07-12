@@ -10,8 +10,22 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "eyebrow": {
+          "type": "text",
+          "settings": {
+            "text": "Batch 01 · The Signature Collection",
+            "text_style": "uppercase"
+          }
+        },
         "title": {
           "type": "title"
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "Six hundred to nine hundred thread count cotton sateen, hand-finished for one size only.",
+            "text_style": "subtitle"
+          }
         },
         "price": {
           "type": "price"
@@ -71,7 +85,9 @@
         }
       },
       "block_order": [
+        "eyebrow",
         "title",
+        "subheading",
         "price",
         "variant_picker",
         "buy_buttons",

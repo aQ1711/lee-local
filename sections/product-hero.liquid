@@ -59,6 +59,11 @@
       <p class="product-hero__tagline">{{ tagline | escape }}</p>
     {%- endif -%}
 
+    <button type="button" class="product-hero__scroll-cue" data-product-hero-scroll-cue>
+      <span>{{ 'products.product.scroll_to_discover' | t }}</span>
+      <span class="product-hero__scroll-arrow" aria-hidden="true"></span>
+    </button>
+
     {%- if product.price_min > 0 -%}
       <p class="product-hero__price">
         <span class="product-hero__price-label">{{ 'products.product.starting_from' | t }}</span>
@@ -66,9 +71,8 @@
       </p>
     {%- endif -%}
 
-    <button type="button" class="product-hero__scroll-cue" data-product-hero-scroll-cue>
-      <span>{{ 'products.product.scroll_to_discover' | t }}</span>
-      <span class="product-hero__scroll-arrow" aria-hidden="true"></span>
+    <button type="button" class="product-hero__shop-button" data-product-hero-scroll-cue>
+      {{ 'products.product.shop' | t }}
     </button>
   </div>
 </div>
