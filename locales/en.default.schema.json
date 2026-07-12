@@ -4,6 +4,7 @@
     "article": "Article",
     "block": "Block",
     "blog": "Blog",
+    "brand_colors": "Brand colors",
     "cart": "Cart",
     "collection": "Collection",
     "collections": "Collections",
@@ -13,6 +14,7 @@
     "column": "Column",
     "content": "Content",
     "custom_section": "Custom section",
+    "editorial_split": "Editorial split",
     "fonts": "Fonts",
     "footer": "Footer",
     "group": "Group",
@@ -48,7 +50,17 @@
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "heading": "Heading",
+    "heading_font": "Heading font",
+    "detail_paragraph": "Detail paragraph",
+    "texture_image": "Texture image",
+    "image_position": "Desktop image position",
+    "warm_ivory": "Warm ivory",
+    "oxblood": "Oxblood",
+    "navy": "Navy",
+    "hunter_green": "Hunter green",
+    "leather_tan": "Leather tan"
   },
   "options": {
     "alignment": {
@@ -73,5 +85,12 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "image_position": {
+      "image_first": "Image first",
+      "text_first": "Text first"
+    }
+  },
+  "info": {
+    "image_position_mobile": "On mobile, the image always appears above the text."
   }
 }
