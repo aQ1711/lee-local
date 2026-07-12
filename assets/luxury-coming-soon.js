@@ -2,8 +2,11 @@
  * Luxury Coming Soon — entry-zone interaction.
  *
  * Handles only the client-side reveal: Request Entry button -> email
- * input (state 1 -> 2), plus the blinking placeholder cursor. That is
- * the full extent of this script's job.
+ * input (state 1 -> 2). That is the full extent of this script's job.
+ * There's no decorative blinking cursor to manage — the browser's own
+ * text caret (styled gold via caret-color in the CSS) is the only
+ * cursor shown, which keeps the field simple and avoids two cursors
+ * ever competing for the same spot.
  *
  * The input -> success transition (state 2 -> 3) is NOT done here.
  * The form below is a real Shopify `{% form 'customer' %}` tag: on
@@ -20,7 +23,6 @@
     var trigger = zone.querySelector('[data-entry-trigger]');
     var form = zone.querySelector('form');
     var input = zone.querySelector('[data-entry-input]');
-    var cursor = zone.querySelector('[data-entry-cursor]');
 
     if (!trigger || !form || !input) return;
 
@@ -40,24 +42,6 @@
         input.focus({ preventScroll: true });
       }, 220);
     });
-
-    /* Hide the blinking placeholder cursor once the user starts
-       typing (or the field already has a value, e.g. after a failed
-       submit round-trip or browser autofill); restore it if cleared. */
-    if (cursor) {
-      input.addEventListener('input', function () {
-        if (input.value.length > 0) {
-          cursor.classList.remove('is-showing');
-        } else {
-          cursor.classList.add('is-showing');
-        }
-      });
-      input.addEventListener('focus', function () {
-        if (input.value.length === 0) {
-          cursor.classList.add('is-showing');
-        }
-      });
-    }
 
     /* Deliberately no submit handler here: this is a real
        `{% form 'customer' %}` and we want the browser's normal,

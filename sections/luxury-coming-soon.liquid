@@ -73,13 +73,6 @@
       echo ' is-hidden'
     endif
   endcapture
-
-  capture entry_cursor_class
-    echo 'entry-cursor'
-    if form.email == blank
-      echo ' is-showing'
-    endif
-  endcapture
 -%}
 
 <div class="luxury-coming-soon color-{{ section.settings.color_scheme }}" data-luxury-coming-soon>
@@ -256,7 +249,6 @@
                 aria-describedby="LuxuryComingSoonForm-email-error"
               {% endif %}
             >
-            <span class="{{ entry_cursor_class }}" data-entry-cursor aria-hidden="true"></span>
             <span class="entry-line"></span>
           </div>
 
