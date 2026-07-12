@@ -1,0 +1,222 @@
+{% comment %}
+  Atelier Homepage Portal — high-fashion "brand portal" homepage hero
+  for a curated, 6-product catalog.
+
+  Layout:
+  - Mobile: two stacked full-viewport-height (100svh) panels — visual
+    on top, index below — matching the site's normal scroll behaviour
+    (not a locked single screen).
+  - Desktop (>=750px): 50/50 split-screen, side by side.
+
+  Left panel is purely decorative (aria-hidden) — the real content
+  (brand statement + product index) lives in the right panel so the
+  page remains meaningful with images/video disabled.
+{% endcomment %}
+
+{% liquid
+  assign video = section.settings.background_video
+  assign image = section.settings.background_image
+  assign statement = section.settings.brand_statement
+  assign sizes = '(min-width: 750px) 50vw, 100vw'
+%}
+
+<section class="atelier-portal full-width">
+  <div class="atelier-portal__visual" aria-hidden="true">
+    {%- if video -%}
+      {{
+        video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          image_size: '1920x',
+          class: 'atelier-portal__video'
+      }}
+    {%- elsif image -%}
+      {{
+        image
+        | image_url: width: 1600
+        | image_tag:
+          sizes: sizes,
+          widths: '480, 750, 1100, 1500, 1780, 2200',
+          fetchpriority: 'high',
+          alt: '',
+          class: 'atelier-portal__image'
+      }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'atelier-portal__image atelier-portal__placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="atelier-portal__index">
+    <div class="atelier-portal__index-inner">
+      {%- if statement != blank -%}
+        <h1 class="atelier-portal__statement">{{ statement | escape }}</h1>
+      {%- endif -%}
+
+      <ol class="atelier-portal__list">
+        {% content_for 'blocks' %}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .atelier-portal {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .atelier-portal__visual,
+  .atelier-portal__index {
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .atelier-portal__visual {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-navy-deep);
+  }
+
+  .atelier-portal__video,
+  .atelier-portal__image,
+  .atelier-portal__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Right panel — minimalist index */
+  .atelier-portal__index {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-ivory);
+    padding: clamp(2rem, 6vw, 4rem);
+  }
+
+  .atelier-portal__index-inner {
+    width: 100%;
+    max-width: 30rem;
+  }
+
+  .atelier-portal__statement {
+    font-family: var(--font-heading--family);
+    font-style: var(--font-heading--style);
+    font-weight: var(--font-heading--weight);
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    color: var(--color-navy);
+    text-align: center;
+    margin: 0 0 clamp(2rem, 6vh, 3.5rem);
+  }
+
+  .atelier-portal__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: index-link;
+  }
+
+  @media screen and (min-width: 750px) {
+    .atelier-portal {
+      flex-direction: row;
+    }
+
+    .atelier-portal__visual,
+    .atelier-portal__index {
+      width: 50%;
+      height: 100vh;
+      height: 100svh;
+    }
+
+    .atelier-portal__statement {
+      text-align: left;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    'use strict';
+
+    var videos = document.querySelectorAll('.atelier-portal__video');
+    if (!videos.length) {
+      return;
+    }
+
+    // Respect prefers-reduced-motion: pause the looping background
+    // video entirely (not just hide via CSS) rather than let it
+    // autoplay for users who've asked for reduced motion.
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    function applyMotionPreference(video) {
+      if (reduceMotion.matches) {
+        video.pause();
+        video.removeAttribute('autoplay');
+      } else if (video.paused) {
+        video.play().catch(function () {
+          // Autoplay blocked by the browser; the poster frame stays visible.
+        });
+      }
+    }
+
+    videos.forEach(applyMotionPreference);
+
+    if (typeof reduceMotion.addEventListener === 'function') {
+      reduceMotion.addEventListener('change', function () {
+        videos.forEach(applyMotionPreference);
+      });
+    }
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:general.atelier_homepage_portal",
+  "settings": [
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "t:labels.background_video"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "t:labels.background_image",
+      "info": "t:info.background_image_usage"
+    },
+    {
+      "type": "text",
+      "id": "brand_statement",
+      "label": "t:labels.brand_statement",
+      "default": "The Atelier Index"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "index-link"
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "t:general.atelier_homepage_portal",
+      "blocks": [
+        { "type": "index-link" },
+        { "type": "index-link" },
+        { "type": "index-link" },
+        { "type": "index-link" },
+        { "type": "index-link" },
+        { "type": "index-link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

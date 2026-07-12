@@ -2,6 +2,7 @@
   "general": {
     "404": "Not found",
     "article": "Article",
+    "atelier_homepage_portal": "Atelier homepage portal",
     "block": "Block",
     "blog": "Blog",
     "brand_colors": "Brand colors",
@@ -19,6 +20,7 @@
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "index_link": "Index link",
     "layout": "Layout",
     "main": "Main",
     "page": "Page",
@@ -56,11 +58,15 @@
     "detail_paragraph": "Detail paragraph",
     "texture_image": "Texture image",
     "image_position": "Desktop image position",
-    "warm_ivory": "Warm ivory",
-    "oxblood": "Oxblood",
+    "ivory": "Ivory",
     "navy": "Navy",
-    "hunter_green": "Hunter green",
-    "leather_tan": "Leather tan"
+    "navy_deep": "Navy (deep)",
+    "gold": "Gold",
+    "gold_soft": "Gold (soft)",
+    "background_video": "Background video",
+    "background_image": "Background image",
+    "brand_statement": "Brand statement",
+    "product": "Product"
   },
   "options": {
     "alignment": {
@@ -91,6 +97,7 @@
     }
   },
   "info": {
-    "image_position_mobile": "On mobile, the image always appears above the text."
+    "image_position_mobile": "On mobile, the image always appears above the text.",
+    "background_image_usage": "Shown only if no background video is selected."
   }
 }
