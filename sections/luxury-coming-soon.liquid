@@ -1,0 +1,195 @@
+{{ 'section-luxury-coming-soon.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  Luxury Coming Soon — cinematic, full-bleed gated-drop landing page
+  used as the storefront password page's sole content.
+
+  The actual password-entry mechanism (top-right "Enter using
+  password" link) reuses Dawn's real password-modal.js / details-modal.js
+  custom elements and the native storefront_password form tag — both
+  scripts are already loaded globally by layout/password.liquid, and
+  the exact password-modal / details / summary / button(type=button)
+  structure below is required for that JS to find and wire up
+  correctly.
+
+  The email capture form below it is the separate, primary customer
+  form tag: the pre-launch signup.
+{% endcomment %}
+
+{%- liquid
+  assign image = section.settings.background_image
+  assign headline = section.settings.headline
+  assign subtitle = section.settings.subtitle
+  assign button_label = section.settings.button_label
+-%}
+
+<div class="luxury-coming-soon color-{{ section.settings.color_scheme }}">
+  <div class="luxury-coming-soon__media" aria-hidden="true">
+    {%- if image -%}
+      {{
+        image
+        | image_url: width: 2200
+        | image_tag:
+          sizes: '100vw',
+          widths: '750, 1100, 1500, 1780, 2200, 3000',
+          fetchpriority: 'high',
+          alt: '',
+          class: 'luxury-coming-soon__image'
+      }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'luxury-coming-soon__image luxury-coming-soon__placeholder' }}
+    {%- endif -%}
+    <div class="luxury-coming-soon__overlay"></div>
+  </div>
+
+  <password-modal class="luxury-coming-soon__password-modal">
+    <details class="password-modal modal">
+      <summary class="modal__toggle luxury-coming-soon__password-trigger" aria-haspopup="dialog">
+        <div class="modal__toggle-open">
+          {{ 'general.password_page.login_password_button' | t }}
+        </div>
+        <div class="modal__toggle-close" aria-hidden="true">
+          <span class="svg-wrapper">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </div>
+      </summary>
+      <div
+        class="modal__content"
+        role="dialog"
+        aria-labelledby="LuxuryComingSoonPasswordHeading"
+        aria-modal="true"
+      >
+        <div class="password-modal__content" tabindex="-1">
+          <button type="button" class="modal__close-button link" aria-label="{{ 'accessibility.close' | t }}">
+            <span class="svg-wrapper">
+              {{- 'icon-close.svg' | inline_asset_content -}}
+            </span>
+          </button>
+          <h2 class="password-modal__content-heading" id="LuxuryComingSoonPasswordHeading">
+            {{ 'general.password_page.login_form_heading' | t }}
+          </h2>
+          {%- form 'storefront_password', class: 'password-form' -%}
+            <div class="password-field field{% if form.errors %} password-field--error{% endif %}">
+              <input
+                type="password"
+                name="password"
+                id="LuxuryComingSoonPassword"
+                class="field__input"
+                autocomplete="current-password"
+                {% if form.errors %}
+                  aria-invalid="true"
+                  aria-describedby="LuxuryComingSoonPassword-error"
+                {%- endif -%}
+                placeholder="{{ 'general.password_page.login_form_password_placeholder' | t }}"
+              >
+              <label class="field__label" for="LuxuryComingSoonPassword">
+                {{- 'general.password_page.login_form_password_placeholder' | t -}}
+              </label>
+              {%- if form.errors -%}
+                <div id="LuxuryComingSoonPassword-error" role="status">
+                  <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
+                  <span class="form__message">
+                    {{ 'general.password_page.login_form_error' | t -}}
+                  </span>
+                </div>
+              {%- endif -%}
+            </div>
+            <button name="commit" class="password-button button button--outline">
+              {{ 'general.password_page.login_form_submit' | t }}
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </details>
+  </password-modal>
+
+  <div class="luxury-coming-soon__content">
+    {%- if headline != blank -%}
+      <h1 class="luxury-coming-soon__headline">{{ headline | escape }}</h1>
+    {%- endif -%}
+
+    {%- if subtitle != blank -%}
+      <p class="luxury-coming-soon__subtitle">{{ subtitle | escape }}</p>
+    {%- endif -%}
+
+    {%- form 'customer', id: 'LuxuryComingSoonForm', class: 'luxury-coming-soon__form' -%}
+      <input type="hidden" name="contact[tags]" value="pre-launch">
+
+      {%- if form.posted_successfully? -%}
+        <p class="luxury-coming-soon__message luxury-coming-soon__message--success" role="status" tabindex="-1" autofocus>
+          {{ 'luxury_coming_soon.success' | t }}
+        </p>
+      {%- else -%}
+        <div class="luxury-coming-soon__field">
+          <label class="visually-hidden" for="LuxuryComingSoonForm-email">
+            {{ 'newsletter.label' | t }}
+          </label>
+          <input
+            type="email"
+            id="LuxuryComingSoonForm-email"
+            name="contact[email]"
+            class="luxury-coming-soon__input"
+            value="{{ form.email }}"
+            placeholder="{{ 'newsletter.label' | t }}"
+            required
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            {% if form.errors %}
+              autofocus
+              aria-invalid="true"
+              aria-describedby="LuxuryComingSoonForm-email-error"
+            {% endif %}
+          >
+          <button type="submit" class="luxury-coming-soon__submit">
+            {{ button_label | default: 'Request access' }}
+          </button>
+        </div>
+
+        {%- if form.errors -%}
+          <p class="luxury-coming-soon__message luxury-coming-soon__message--error" id="LuxuryComingSoonForm-email-error">
+            {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+          </p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.luxury-coming-soon.name",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "t:sections.luxury-coming-soon.settings.background_image.label"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "t:sections.luxury-coming-soon.settings.headline.label",
+      "default": "Leehaf"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.luxury-coming-soon.settings.subtitle.label",
+      "default": "The Architecture of Rest. Arriving Soon in North America."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.luxury-coming-soon.settings.button_label.label",
+      "default": "Request access"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    }
+  ]
+}
+{% endschema %}

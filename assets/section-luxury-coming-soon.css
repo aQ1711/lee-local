@@ -1,0 +1,212 @@
+/* Luxury Coming Soon — cinematic full-bleed gated-drop landing page. */
+
+.luxury-coming-soon {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  text-align: center;
+  color: #f7f4ee;
+}
+
+/* Background media + overlay */
+.luxury-coming-soon__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.luxury-coming-soon__image,
+.luxury-coming-soon__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.luxury-coming-soon__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(1, 0, 24, 0.35) 0%, rgba(1, 0, 24, 0.6) 65%, rgba(1, 0, 24, 0.82) 100%),
+    linear-gradient(180deg, rgba(1, 0, 24, 0.55) 0%, rgba(1, 0, 24, 0.25) 35%, rgba(1, 0, 24, 0.35) 60%, rgba(1, 0, 24, 0.9) 100%);
+}
+
+/* Main content */
+.luxury-coming-soon__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 40rem;
+  padding: 1.5rem;
+}
+
+.luxury-coming-soon__headline {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  margin: 0 0 1.25rem;
+}
+
+.luxury-coming-soon__subtitle {
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  color: rgba(247, 244, 238, 0.85);
+  max-width: 32rem;
+  margin: 0 0 clamp(2rem, 5vh, 3rem);
+}
+
+/* Minimalist email-capture form */
+.luxury-coming-soon__form {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.luxury-coming-soon__field {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 0.6rem;
+}
+
+.luxury-coming-soon__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #ffffff;
+  font-family: var(--font-body-family);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  padding: 0.4rem 0.1rem;
+  appearance: none;
+}
+
+.luxury-coming-soon__input::placeholder {
+  color: rgba(247, 244, 238, 0.55);
+}
+
+.luxury-coming-soon__input:focus {
+  outline: none;
+}
+
+.luxury-coming-soon__input:focus-visible {
+  outline: 1px solid #b8975a;
+  outline-offset: 4px;
+}
+
+.luxury-coming-soon__submit {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  color: #ffffff;
+  font-family: var(--font-body-family);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.4rem 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.luxury-coming-soon__submit:hover,
+.luxury-coming-soon__submit:focus-visible {
+  color: #b8975a;
+}
+
+.luxury-coming-soon__submit:focus-visible {
+  outline: 1px solid #b8975a;
+  outline-offset: 4px;
+}
+
+.luxury-coming-soon__message {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-body-family);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
+
+.luxury-coming-soon__message--error {
+  color: #e8b4b4;
+}
+
+.luxury-coming-soon__message--success {
+  color: #d4b07a;
+}
+
+/* Discreet "Enter using password" trigger, top-right corner.
+   This wrapper must stay full-size (inset: 0) rather than shrink to
+   fit the trigger — Dawn's own .modal__content is `position: absolute;
+   inset: 0`, and it resolves against the nearest positioned ancestor,
+   which is this element. If it were sized to just the trigger link,
+   the modal dialog would collapse into that tiny box instead of
+   covering the panel. pointer-events is disabled here and re-enabled
+   only on the trigger and the open dialog, so it doesn't block clicks
+   on the rest of the page while closed. */
+.luxury-coming-soon__password-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.luxury-coming-soon__password-modal .modal__content {
+  pointer-events: auto;
+}
+
+.luxury-coming-soon__password-trigger {
+  position: absolute;
+  top: clamp(1.25rem, 3vh, 2rem);
+  right: clamp(1.25rem, 3vw, 2.5rem);
+  pointer-events: auto;
+  font-family: var(--font-body-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 238, 0.7);
+  transition: color 0.3s ease;
+}
+
+.luxury-coming-soon__password-trigger:hover {
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .luxury-coming-soon__submit,
+  .luxury-coming-soon__password-trigger {
+    transition: none;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .luxury-coming-soon__field {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .luxury-coming-soon__submit {
+    align-self: flex-end;
+  }
+}

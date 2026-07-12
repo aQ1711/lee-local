@@ -364,6 +364,23 @@
     }
   },
   "sections": {
+    "luxury-coming-soon": {
+      "name": "Luxury coming soon",
+      "settings": {
+        "background_image": {
+          "label": "Background image"
+        },
+        "headline": {
+          "label": "Headline"
+        },
+        "subtitle": {
+          "label": "Subtitle"
+        },
+        "button_label": {
+          "label": "Button label"
+        }
+      }
+    },
     "atelier-homepage-portal": {
       "name": "Atelier homepage portal",
       "settings": {

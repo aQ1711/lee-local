@@ -1,4 +1,7 @@
 {
+  "luxury_coming_soon": {
+    "success": "You're on the list. We'll be in touch."
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Enter store using password:",
