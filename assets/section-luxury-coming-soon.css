@@ -70,15 +70,16 @@ body.password .password-main {
   position: absolute;
   inset: 0;
   z-index: 2;
-  /* Strengthened from the original recipe: against a bright, high-key
-     video (lots of silver/white in frame) the earlier lighter values
-     read as barely-there. This keeps the same vignette shape --
-     lighter near center, darker at edges/bottom -- but raises the
-     floor everywhere so text stays legible and the navy cast reads
-     clearly regardless of how bright the underlying footage is. */
+  /* This footage is bright/high-key (lots of silver metal and pale
+     fabric) -- a moderate-opacity navy wash over near-white pixels
+     still reads as pale gray, not blue. Pushed the floor much higher
+     across the board (was 0.45/0.68/0.85, now 0.62/0.8/0.92) so the
+     navy cast is unmistakable everywhere, not just at the vignette's
+     darkest edges -- there's still a lighter-at-center/darker-at-edge
+     shape, but "lighter" now still reads as clearly tinted navy. */
   background:
-    radial-gradient(ellipse at center, rgba(1, 0, 24, 0.45) 0%, rgba(1, 0, 24, 0.68) 55%, rgba(1, 0, 24, 0.85) 100%),
-    linear-gradient(180deg, rgba(1, 0, 24, 0.65) 0%, rgba(1, 0, 24, 0.45) 30%, rgba(1, 0, 24, 0.55) 60%, rgba(1, 0, 24, 0.92) 100%);
+    radial-gradient(ellipse at center, rgba(1, 0, 24, 0.62) 0%, rgba(1, 0, 24, 0.8) 55%, rgba(1, 0, 24, 0.92) 100%),
+    linear-gradient(180deg, rgba(1, 0, 24, 0.78) 0%, rgba(1, 0, 24, 0.62) 30%, rgba(1, 0, 24, 0.7) 60%, rgba(1, 0, 24, 0.95) 100%);
 }
 
 .luxury-coming-soon__grain {
@@ -306,6 +307,25 @@ body.password .password-main {
   padding: 0 8px 16px;
   caret-color: #d4b07a;
   transition: opacity 0.3s ease;
+}
+
+/* Browsers force their own opaque background + dark text on
+   autofilled fields (Chrome's pale lavender-white box is what was
+   showing) and it can't be made transparent -- but it CAN be
+   recolored to match the brand instead of looking like a stock
+   browser control. The 1000px inset box-shadow is the standard trick
+   for overriding the forced autofill background; the long transition
+   delay prevents a visible color flash when autofill first kicks in. */
+.entry-input:-webkit-autofill,
+.entry-input:-webkit-autofill:hover,
+.entry-input:-webkit-autofill:focus,
+.entry-input:-webkit-autofill:active,
+.entry-input:autofill {
+  -webkit-text-fill-color: #f7f4ee;
+  -webkit-box-shadow: 0 0 0 1000px #010018 inset;
+  box-shadow: 0 0 0 1000px #010018 inset;
+  caret-color: #d4b07a;
+  transition: background-color 9999s ease-in-out 0s, opacity 0.3s ease;
 }
 
 .entry-input::placeholder {
