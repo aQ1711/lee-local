@@ -16,6 +16,7 @@
   assign image = section.settings.texture_image
   assign position = section.settings.image_position
   assign sizes = '(min-width: 750px) 60vw, 100vw'
+  assign image_alt = image.alt | escape
 %}
 
 <section
@@ -33,7 +34,7 @@
           loading: 'lazy',
           sizes: sizes,
           widths: '375, 550, 750, 1100, 1500, 1780, 2000',
-          alt: image.alt | escape,
+          alt: image_alt,
           class: 'editorial-split__image'
       }}
     {%- else -%}
