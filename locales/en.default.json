@@ -111,6 +111,8 @@
     "select_product": "Select a product",
     "product": {
       "add_to_cart": "Add to cart",
+      "starting_from": "From",
+      "scroll_to_discover": "Scroll to discover",
       "choose_options": "Choose options",
       "choose_product_options": "Choose options for {{ product_name }}",
       "description": "Description",

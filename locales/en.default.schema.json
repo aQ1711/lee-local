@@ -364,6 +364,18 @@
     }
   },
   "sections": {
+    "product-hero": {
+      "name": "Product hero",
+      "settings": {
+        "image": {
+          "label": "Background image",
+          "info": "Falls back to the product's featured image if left blank."
+        },
+        "tagline": {
+          "label": "Tagline"
+        }
+      }
+    },
     "luxury-coming-soon": {
       "name": "Luxury coming soon",
       "settings": {

@@ -1,0 +1,161 @@
+/* Product Hero — full-bleed editorial header, ported from the
+   B&O Beosound A9 product-page structure. */
+
+.product-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 32rem;
+  overflow: hidden;
+  text-align: center;
+  color: #f7f4ee;
+}
+
+.product-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.product-hero__image,
+.product-hero__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.product-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    rgba(1, 0, 24, 0.15) 0%,
+    rgba(1, 0, 24, 0.05) 35%,
+    rgba(1, 0, 24, 0.35) 70%,
+    rgba(1, 0, 24, 0.75) 100%
+  );
+}
+
+.product-hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 48rem;
+  padding: 1.5rem 1.5rem 3.5rem;
+}
+
+.product-hero__title {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.75rem, 8vw, 5.5rem);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+}
+
+.product-hero__tagline {
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  letter-spacing: 0.02em;
+  color: rgba(247, 244, 238, 0.9);
+  max-width: 34rem;
+  margin: 0 0 1.5rem;
+}
+
+.product-hero__price {
+  font-family: var(--font-body-family);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 2.5rem;
+}
+
+.product-hero__price-label {
+  color: rgba(247, 244, 238, 0.6);
+  margin-right: 0.4rem;
+}
+
+.product-hero__scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: none;
+  color: rgba(247, 244, 238, 0.75);
+  font-family: var(--font-body-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.product-hero__scroll-cue:hover,
+.product-hero__scroll-cue:focus-visible {
+  color: #ffffff;
+}
+
+.product-hero__scroll-arrow {
+  width: 1px;
+  height: 1.75rem;
+  background: currentColor;
+  position: relative;
+  animation: product-hero-bob 1.8s ease-in-out infinite;
+}
+
+.product-hero__scroll-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  rotate: 45deg;
+}
+
+@keyframes product-hero-bob {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-hero__scroll-arrow {
+    animation: none;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .product-hero {
+    min-height: 28rem;
+  }
+
+  .product-hero__content {
+    padding-bottom: 2.5rem;
+  }
+}

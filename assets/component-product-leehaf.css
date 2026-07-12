@@ -1,0 +1,93 @@
+/* Leehaf editorial restyle for Dawn's real product page.
+   Cosmetic only -- every selector here targets markup Dawn's own
+   main-product section, product-variant-picker, buy-buttons, and
+   icon-with-text snippets already render. None of the underlying
+   cart/variant/gallery JS or Liquid logic is touched; this file only
+   ever adds typography, spacing, and color on top of it. */
+
+/* ---- Title & price ---- */
+.product__title h1,
+.product__title .h1 {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: 0.01em;
+}
+
+.price--large {
+  font-family: var(--font-body-family);
+  letter-spacing: 0.02em;
+}
+
+/* ---- Variant picker: quiet, minimal pill buttons instead of
+   Dawn's default boxed/shadowed pills ---- */
+.product-form__input--pill .form__label {
+  font-family: var(--font-body-family);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(var(--color-foreground), 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.product-form__input--pill label {
+  font-family: var(--font-body-family);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 0;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.product-form__input--pill input:checked + label {
+  border-color: rgb(var(--color-foreground));
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+/* ---- Buy button: full-width, calm, no heavy shadow ---- */
+.product-form__submit.button {
+  font-family: var(--font-body-family);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ---- Trust badges (icon-with-text block): quiet, evenly spaced,
+   gold-tinted icons rather than Dawn's default solid-color glyphs ---- */
+.icon-with-text {
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.icon-with-text__item svg,
+.icon-with-text__item img {
+  color: #b8975a;
+}
+
+.icon-with-text__item .h4 {
+  font-family: var(--font-body-family);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* ---- Accordion (Materials / Care / Shipping): quiet dividers,
+   Cormorant Garamond headings instead of Dawn's default bold body
+   font, matching the rest of the brand's editorial voice ---- */
+.product__accordion .accordion__title {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ---- Description copy: slightly wider line-height for a calmer,
+   more editorial read than Dawn's default tight rte spacing ---- */
+.product__description.rte {
+  line-height: 1.7;
+}

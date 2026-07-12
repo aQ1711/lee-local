@@ -25,6 +25,13 @@
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {%- endif -%}
 
+  {%- comment -%}
+    Leehaf editorial restyle, loaded last so its rules win the
+    cascade over Dawn's own component CSS above. Cosmetic only --
+    see the file itself for what it does and doesn't touch.
+  {%- endcomment -%}
+  {{ 'component-product-leehaf.css' | asset_url | stylesheet_tag }}
+
   {%- style -%}
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;

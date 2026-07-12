@@ -1,0 +1,102 @@
+{{ 'section-product-hero.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-hero.js' | asset_url }}" defer="defer"></script>
+
+{% comment %}
+  Product Hero — full-bleed editorial header for the product page.
+  Ported from the B&O Beosound A9 product-page structure: large
+  lifestyle image, product name + tagline overlay, a "scroll to
+  discover" cue, and a starting price. Sits above the real
+  main-product section (which has the actual variant picker, add to
+  cart, and media gallery) -- this section is presentational only, no
+  cart logic lives here. It reads the product's title/price straight
+  from the real product object for accuracy, but the actual purchase
+  happens in main-product below.
+
+  Only usable inside templates/product.json -- it depends on the
+  `product` object, which Shopify only provides to sections rendered
+  within a product template.
+{% endcomment %}
+
+{%- liquid
+  assign image = section.settings.image
+  assign tagline = section.settings.tagline
+-%}
+
+<div class="product-hero color-{{ section.settings.color_scheme }}">
+  <div class="product-hero__media" aria-hidden="true">
+    {%- if image -%}
+      {{
+        image
+        | image_url: width: 2600
+        | image_tag:
+          sizes: '100vw',
+          widths: '750, 1100, 1500, 1780, 2200, 2600, 3200',
+          fetchpriority: 'high',
+          alt: '',
+          class: 'product-hero__image'
+      }}
+    {%- elsif product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 2600
+        | image_tag:
+          sizes: '100vw',
+          widths: '750, 1100, 1500, 1780, 2200, 2600, 3200',
+          fetchpriority: 'high',
+          alt: '',
+          class: 'product-hero__image'
+      }}
+    {%- else -%}
+      {{ 'product-apparel-1' | placeholder_svg_tag: 'product-hero__image product-hero__placeholder' }}
+    {%- endif -%}
+    <div class="product-hero__overlay"></div>
+  </div>
+
+  <div class="product-hero__content">
+    <h1 class="product-hero__title">{{ product.title | escape }}</h1>
+
+    {%- if tagline != blank -%}
+      <p class="product-hero__tagline">{{ tagline | escape }}</p>
+    {%- endif -%}
+
+    {%- if product.price_min > 0 -%}
+      <p class="product-hero__price">
+        <span class="product-hero__price-label">{{ 'products.product.starting_from' | t }}</span>
+        {{ product.price_min | money }}
+      </p>
+    {%- endif -%}
+
+    <button type="button" class="product-hero__scroll-cue" data-product-hero-scroll-cue>
+      <span>{{ 'products.product.scroll_to_discover' | t }}</span>
+      <span class="product-hero__scroll-arrow" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.product-hero.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.product-hero.settings.image.label",
+      "info": "t:sections.product-hero.settings.image.info"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "t:sections.product-hero.settings.tagline.label",
+      "default": "Woven for permanence, not for a season."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-4"
+    }
+  ]
+}
+{% endschema %}
