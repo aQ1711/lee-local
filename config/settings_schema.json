@@ -17,8 +17,14 @@
       {
         "type": "font_picker",
         "id": "type_primary_font",
-        "default": "work_sans_n4",
+        "default": "space_grotesk_n4",
         "label": "t:general.primary"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_heading_font",
+        "default": "playfair_display_n4",
+        "label": "t:labels.heading_font"
       }
     ]
   },
@@ -67,6 +73,40 @@
         "id": "foreground_color",
         "default": "#333333",
         "label": "t:labels.foreground"
+      },
+      {
+        "type": "header",
+        "content": "t:general.brand_colors"
+      },
+      {
+        "type": "color",
+        "id": "color_warm_ivory",
+        "default": "#F5F0E6",
+        "label": "t:labels.warm_ivory"
+      },
+      {
+        "type": "color",
+        "id": "color_oxblood",
+        "default": "#5C1B24",
+        "label": "t:labels.oxblood"
+      },
+      {
+        "type": "color",
+        "id": "color_navy",
+        "default": "#1C2B3A",
+        "label": "t:labels.navy"
+      },
+      {
+        "type": "color",
+        "id": "color_hunter_green",
+        "default": "#2F4034",
+        "label": "t:labels.hunter_green"
+      },
+      {
+        "type": "color",
+        "id": "color_leather_tan",
+        "default": "#B08457",
+        "label": "t:labels.leather_tan"
       },
       {
         "type": "range",
