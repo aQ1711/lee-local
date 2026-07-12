@@ -10,7 +10,23 @@
 {
   "sections": {
     "main": {
-      "type": "hello-world",
+      "type": "atelier-homepage-portal",
+      "blocks": {
+        "index-link-1": { "type": "index-link", "settings": {} },
+        "index-link-2": { "type": "index-link", "settings": {} },
+        "index-link-3": { "type": "index-link", "settings": {} },
+        "index-link-4": { "type": "index-link", "settings": {} },
+        "index-link-5": { "type": "index-link", "settings": {} },
+        "index-link-6": { "type": "index-link", "settings": {} }
+      },
+      "block_order": [
+        "index-link-1",
+        "index-link-2",
+        "index-link-3",
+        "index-link-4",
+        "index-link-5",
+        "index-link-6"
+      ],
       "settings": {}
     }
   },
