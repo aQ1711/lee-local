@@ -1,0 +1,44 @@
+/* Immersive header for the product page, matching the B&O
+   Beosound A9 reference: the header floats transparently over the
+   full-bleed hero image (logo/nav in white/ivory) instead of sitting
+   as a normal solid bar above it, then becomes a normal solid header
+   once the visitor scrolls past the hero.
+
+   Scoped to body.template-product only -- every other template
+   (home, collection, cart, etc.) keeps Dawn's default header exactly
+   as it was, untouched.
+
+   No new JS: Dawn's own sticky-header component (in sections/header.
+   liquid) already adds a `.scrolled-past-header` class to the
+   `.section-header` wrapper once you scroll past it and removes it
+   at the top of the page -- this file just styles those two existing
+   states differently for this one template. */
+
+body.template-product .announcement-bar-section {
+  display: none;
+}
+
+body.template-product .section-header {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 10;
+}
+
+body.template-product .section-header:not(.scrolled-past-header) .header-wrapper {
+  --color-background: 1, 0, 24;
+  --color-foreground: 247, 244, 238;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+body.template-product .section-header.scrolled-past-header .header-wrapper {
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.template-product .section-header .header-wrapper {
+    transition: none;
+  }
+}
