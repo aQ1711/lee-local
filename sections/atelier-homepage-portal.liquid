@@ -1,0 +1,139 @@
+{{ 'section-atelier-homepage-portal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'atelier-homepage-portal.js' | asset_url }}" defer="defer"></script>
+
+{% comment %}
+  Atelier Homepage Portal — high-fashion "brand portal" homepage hero
+  for a curated, 6-product catalog.
+
+  Layout:
+  - Mobile: two stacked full-viewport-height (100svh) panels — visual
+    on top, index below — matching normal scroll behaviour (not a
+    locked single screen).
+  - Desktop (>=750px): 50/50 split-screen, side by side.
+
+  The left panel is purely decorative (aria-hidden); the right panel
+  carries the real content (brand statement + product index) so the
+  page stays meaningful with images/video disabled.
+{% endcomment %}
+
+{%- liquid
+  assign video = section.settings.background_video
+  assign image = section.settings.background_image
+  assign statement = section.settings.brand_statement
+  assign sizes = '(min-width: 750px) 50vw, 100vw'
+-%}
+
+<section class="atelier-portal color-{{ section.settings.color_scheme }}">
+  <div class="atelier-portal__visual" aria-hidden="true">
+    {%- if video -%}
+      {{
+        video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          image_size: '1920x',
+          class: 'atelier-portal__video'
+      }}
+    {%- elsif image -%}
+      {{
+        image
+        | image_url: width: 1600
+        | image_tag:
+          sizes: sizes,
+          widths: '480, 750, 1100, 1500, 1780, 2200',
+          fetchpriority: 'high',
+          alt: '',
+          class: 'atelier-portal__image'
+      }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'atelier-portal__image atelier-portal__placeholder' }}
+    {%- endif -%}
+  </div>
+
+  <div class="atelier-portal__index">
+    <div class="atelier-portal__index-inner">
+      {%- if statement != blank -%}
+        <h1 class="atelier-portal__statement">{{ statement | escape }}</h1>
+      {%- endif -%}
+
+      <ol class="atelier-portal__list">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'index_link' -%}
+              <li class="atelier-index-link" {{ block.shopify_attributes }}>
+                {%- if block.settings.product -%}
+                  <a class="atelier-index-link__link" href="{{ block.settings.product.url }}">
+                    {{ block.settings.product.title | escape }}
+                  </a>
+                {%- else -%}
+                  <span class="atelier-index-link__link atelier-index-link__link--placeholder">
+                    {{ 'products.select_product' | t }}
+                  </span>
+                {%- endif -%}
+              </li>
+          {%- endcase -%}
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.atelier-homepage-portal.name",
+  "settings": [
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "t:sections.atelier-homepage-portal.settings.background_video.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "t:sections.atelier-homepage-portal.settings.background_image.label",
+      "info": "t:sections.atelier-homepage-portal.settings.background_image.info"
+    },
+    {
+      "type": "text",
+      "id": "brand_statement",
+      "label": "t:sections.atelier-homepage-portal.settings.brand_statement.label",
+      "default": "The Atelier Index"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "index_link",
+      "name": "t:sections.atelier-homepage-portal.blocks.index_link.name",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.atelier-homepage-portal.blocks.index_link.settings.product.label"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "t:sections.atelier-homepage-portal.presets.name",
+      "blocks": [
+        { "type": "index_link" },
+        { "type": "index_link" },
+        { "type": "index_link" },
+        { "type": "index_link" },
+        { "type": "index_link" },
+        { "type": "index_link" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,157 @@
+/* Atelier Homepage Portal — split-screen brand portal hero. */
+
+.atelier-portal {
+  display: flex;
+  flex-direction: column;
+}
+
+.atelier-portal__visual,
+.atelier-portal__index {
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+}
+
+/* Left panel — decorative full-bleed video/image */
+.atelier-portal__visual {
+  position: relative;
+  overflow: hidden;
+  background-color: #010018;
+}
+
+.atelier-portal__video,
+.atelier-portal__image,
+.atelier-portal__placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Right panel — minimalist index, driven by the section's color scheme */
+.atelier-portal__index {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 4rem);
+}
+
+.atelier-portal__index-inner {
+  width: 100%;
+  max-width: 30rem;
+}
+
+.atelier-portal__statement {
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  margin: 0 0 clamp(2rem, 6vh, 3.5rem);
+}
+
+/* Index list */
+.atelier-portal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: atelier-index-link;
+}
+
+.atelier-index-link {
+  counter-increment: atelier-index-link;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.12);
+}
+
+.atelier-index-link:first-child {
+  border-top: 1px solid rgba(var(--color-foreground), 0.12);
+}
+
+.atelier-index-link__link {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding-block: clamp(1.1rem, 3vh, 1.75rem);
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  transition:
+    letter-spacing 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+    color 0.3s ease;
+}
+
+.atelier-index-link__link::before {
+  content: counter(atelier-index-link, decimal-leading-zero);
+  flex-shrink: 0;
+  font-size: 0.7em;
+  letter-spacing: 0.05em;
+  color: #b8975a;
+}
+
+.atelier-index-link__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: #b8975a;
+  transition: width 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.atelier-index-link__link:hover,
+.atelier-index-link__link:focus-visible {
+  letter-spacing: 0.14em;
+  color: #b8975a;
+}
+
+.atelier-index-link__link:hover::after,
+.atelier-index-link__link:focus-visible::after {
+  width: 100%;
+}
+
+.atelier-index-link__link:focus-visible {
+  outline: 1px solid #b8975a;
+  outline-offset: 6px;
+}
+
+.atelier-index-link__link--placeholder {
+  color: rgba(var(--color-foreground), 0.35);
+  cursor: default;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atelier-index-link__link {
+    transition: none;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .atelier-portal {
+    flex-direction: row;
+  }
+
+  .atelier-portal__visual,
+  .atelier-portal__index {
+    width: 50%;
+    height: 100vh;
+    height: 100svh;
+  }
+
+  .atelier-portal__statement {
+    text-align: left;
+  }
+
+  .atelier-index-link__link {
+    padding-block: clamp(1rem, 2.6vh, 1.5rem);
+  }
+}

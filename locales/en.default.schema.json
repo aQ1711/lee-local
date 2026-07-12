@@ -364,6 +364,34 @@
     }
   },
   "sections": {
+    "atelier-homepage-portal": {
+      "name": "Atelier homepage portal",
+      "settings": {
+        "background_video": {
+          "label": "Background video"
+        },
+        "background_image": {
+          "label": "Background image",
+          "info": "Shown only if no background video is selected."
+        },
+        "brand_statement": {
+          "label": "Brand statement"
+        }
+      },
+      "blocks": {
+        "index_link": {
+          "name": "Index link",
+          "settings": {
+            "product": {
+              "label": "Product"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Atelier homepage portal"
+      }
+    },
     "all": {
       "animation": {
         "content": "Animations",
