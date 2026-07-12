@@ -367,17 +367,35 @@
     "luxury-coming-soon": {
       "name": "Luxury coming soon",
       "settings": {
+        "background_video": {
+          "label": "Background video"
+        },
         "background_image": {
-          "label": "Background image"
+          "label": "Background image (used if no video, or while video loads)"
+        },
+        "pre_label": {
+          "label": "Pre-label"
         },
         "headline": {
-          "label": "Headline"
+          "label": "Wordmark / headline"
         },
-        "subtitle": {
-          "label": "Subtitle"
+        "scarcity_statement": {
+          "label": "Scarcity statement"
+        },
+        "finality_line": {
+          "label": "Finality line"
         },
         "button_label": {
-          "label": "Button label"
+          "label": "Entry button label"
+        },
+        "success_message": {
+          "label": "Success message"
+        },
+        "footer_left": {
+          "label": "Footer line — left"
+        },
+        "footer_right": {
+          "label": "Footer line — right"
         }
       }
     },

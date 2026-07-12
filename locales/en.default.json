@@ -1,6 +1,6 @@
 {
   "luxury_coming_soon": {
-    "success": "You're on the list. We'll be in touch."
+    "email_placeholder": "Enter credentials (email)"
   },
   "general": {
     "password_page": {

@@ -1,31 +1,102 @@
 {{ 'section-luxury-coming-soon.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'luxury-coming-soon.js' | asset_url }}" defer="defer"></script>
 
 {% comment %}
-  Luxury Coming Soon — cinematic, full-bleed gated-drop landing page
-  used as the storefront password page's sole content.
+  Luxury Coming Soon — cinematic, full-bleed "gated drop" landing page
+  used as the storefront password page's sole content. Ported from the
+  leehaf-batch01-gate reference file (pre-label, symbol mark, wordmark,
+  scarcity statement, finality line, 3-state entry interaction, footer
+  line), rebuilt on real Dawn conventions.
 
-  The actual password-entry mechanism (top-right "Enter using
-  password" link) reuses Dawn's real password-modal.js / details-modal.js
-  custom elements and the native storefront_password form tag — both
-  scripts are already loaded globally by layout/password.liquid, and
-  the exact password-modal / details / summary / button(type=button)
-  structure below is required for that JS to find and wire up
-  correctly.
+  Fonts: Cormorant Garamond (display) + Jost (labels/UI) are loaded
+  directly from Google Fonts below, scoped to this section only. This
+  is self-contained on purpose — it doesn't depend on the theme's
+  global type_header_font/type_body_font settings, so it renders
+  correctly regardless of what font handle is currently selected
+  there.
 
-  The email capture form below it is the separate, primary customer
-  form tag: the pre-launch signup.
+  The top-right "Enter using password" link reuses Dawn's real
+  password-modal.js / details-modal.js custom elements and the native
+  storefront_password form tag — both scripts are already loaded
+  globally by layout/password.liquid, and the exact password-modal /
+  details / summary / button(type=button) structure below is required
+  for that JS to find and wire up correctly.
+
+  The entry-zone below the finality line is the real, working
+  pre-launch signup: a genuine "form 'customer'" tag that creates
+  an actual Shopify customer record tagged "pre-launch" on submit.
+  Unlike the reference file's fake fetch('YOUR_ENDPOINT_URL') +
+  setTimeout demo, this submits for real via a normal full-page
+  form post. JS only handles the button -> input reveal (state 1 -> 2)
+  client-side, exactly like the reference; the input -> success
+  transition (state 2 -> 3) happens for real, server-side, driven by
+  Shopify's own form.posted_successfully? / form.errors on reload.
 {% endcomment %}
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@200;300;400;500&display=swap"
+  rel="stylesheet"
+>
+
 {%- liquid
+  assign video = section.settings.background_video
   assign image = section.settings.background_image
+  assign pre_label = section.settings.pre_label
   assign headline = section.settings.headline
-  assign subtitle = section.settings.subtitle
-  assign button_label = section.settings.button_label
+  assign scarcity_statement = section.settings.scarcity_statement
+  assign finality_line = section.settings.finality_line
+  assign button_label = section.settings.button_label | default: 'Request Entry'
+  assign success_message = section.settings.success_message
+  assign footer_left = section.settings.footer_left
+  assign footer_right = section.settings.footer_right
+
+  if form.posted_successfully?
+    assign entry_state = 'success'
+  elsif form.errors
+    assign entry_state = 'form'
+  else
+    assign entry_state = 'trigger'
+  endif
+
+  capture entry_form_class
+    echo 'entry-form'
+    if entry_state == 'form'
+      echo ' is-active'
+    endif
+  endcapture
+
+  capture entry_trigger_class
+    echo 'entry-trigger'
+    if entry_state != 'trigger'
+      echo ' is-hidden'
+    endif
+  endcapture
+
+  capture entry_cursor_class
+    echo 'entry-cursor'
+    if form.email == blank
+      echo ' is-showing'
+    endif
+  endcapture
 -%}
 
-<div class="luxury-coming-soon color-{{ section.settings.color_scheme }}">
+<div class="luxury-coming-soon color-{{ section.settings.color_scheme }}" data-luxury-coming-soon>
+
   <div class="luxury-coming-soon__media" aria-hidden="true">
-    {%- if image -%}
+    {%- if video -%}
+      {{
+        video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          class: 'luxury-coming-soon__video',
+          image_size: '1920x'
+      }}
+    {%- elsif image -%}
       {{
         image
         | image_url: width: 2200
@@ -40,6 +111,7 @@
       {{ 'lifestyle-1' | placeholder_svg_tag: 'luxury-coming-soon__image luxury-coming-soon__placeholder' }}
     {%- endif -%}
     <div class="luxury-coming-soon__overlay"></div>
+    <div class="luxury-coming-soon__grain"></div>
   </div>
 
   <password-modal class="luxury-coming-soon__password-modal">
@@ -105,56 +177,98 @@
   </password-modal>
 
   <div class="luxury-coming-soon__content">
-    {%- if headline != blank -%}
-      <h1 class="luxury-coming-soon__headline">{{ headline | escape }}</h1>
-    {%- endif -%}
+    <div class="luxury-coming-soon__content-inner">
 
-    {%- if subtitle != blank -%}
-      <p class="luxury-coming-soon__subtitle">{{ subtitle | escape }}</p>
-    {%- endif -%}
+      {%- if pre_label != blank -%}
+        <p class="pre-label">{{ pre_label | escape }}</p>
+      {%- endif -%}
 
-    {%- form 'customer', id: 'LuxuryComingSoonForm', class: 'luxury-coming-soon__form' -%}
-      <input type="hidden" name="contact[tags]" value="pre-launch">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M29.37 0.58L0.57 29.18C-0.19 29.94-0.19 31.17 0.57 31.92C1.21 32.55 2.19 32.66 2.95 32.19L38.33 10.15C39.43 9.47 39.60 7.94 38.68 7.03L32.18 0.58C31.40-0.20 30.15-0.20 29.37 0.58Z" fill="#F7F4EE"/>
+          <path d="M25.27 37.93L26.16 25.06C26.28 23.43 24.50 22.36 23.12 23.21L5.86 33.87C4.76 34.55 4.58 36.08 5.50 36.99L24.05 55.41L29.37 60.77C30.15 61.55 31.41 61.56 32.19 60.78L47.07 46.14C48.12 45.11 47.73 43.34 46.35 42.84L27.94 36.19C26.69 35.74 25.36 36.61 25.27 37.93Z" fill="#F7F4EE"/>
+          <path d="M28.10 31.89L28.84 21.13C28.88 20.51 29.21 19.95 29.72 19.61L41.25 11.93C42.04 11.40 43.09 11.50 43.77 12.18L60.79 29.16C61.57 29.93 61.58 31.18 60.82 31.97L51.95 41.11C51.40 41.68 50.55 41.87 49.81 41.59L29.39 33.89C28.57 33.58 28.04 32.77 28.10 31.89Z" fill="#F7F4EE"/>
+        </svg>
+      </div>
 
-      {%- if form.posted_successfully? -%}
-        <p class="luxury-coming-soon__message luxury-coming-soon__message--success" role="status" tabindex="-1" autofocus>
-          {{ 'luxury_coming_soon.success' | t }}
-        </p>
-      {%- else -%}
-        <div class="luxury-coming-soon__field">
-          <label class="visually-hidden" for="LuxuryComingSoonForm-email">
-            {{ 'newsletter.label' | t }}
-          </label>
-          <input
-            type="email"
-            id="LuxuryComingSoonForm-email"
-            name="contact[email]"
-            class="luxury-coming-soon__input"
-            value="{{ form.email }}"
-            placeholder="{{ 'newsletter.label' | t }}"
-            required
-            autocorrect="off"
-            autocapitalize="off"
-            autocomplete="email"
-            {% if form.errors %}
-              autofocus
-              aria-invalid="true"
-              aria-describedby="LuxuryComingSoonForm-email-error"
-            {% endif %}
-          >
-          <button type="submit" class="luxury-coming-soon__submit">
-            {{ button_label | default: 'Request access' }}
-          </button>
+      {%- if headline != blank -%}
+        <h1 class="wordmark">{{ headline | escape }}</h1>
+      {%- endif -%}
+
+      <div class="rule"></div>
+
+      {%- if scarcity_statement != blank -%}
+        <p class="scarcity">{{ scarcity_statement | escape }}</p>
+      {%- endif -%}
+
+      {%- if finality_line != blank -%}
+        <p class="scarcity-finality">{{ finality_line | escape }}</p>
+      {%- endif -%}
+
+      <div class="entry-zone" data-entry-zone data-initial-state="{{ entry_state }}">
+
+        <button type="button" class="{{ entry_trigger_class }}" data-entry-trigger>
+          {{ button_label | escape }}
+        </button>
+
+        {%- form 'customer', id: 'LuxuryComingSoonForm', class: entry_form_class -%}
+          <input type="hidden" name="contact[tags]" value="pre-launch">
+          <div class="entry-form-field">
+            <input
+              type="email"
+              id="LuxuryComingSoonForm-email"
+              name="contact[email]"
+              class="entry-input"
+              value="{{ form.email }}"
+              placeholder="{{ 'luxury_coming_soon.email_placeholder' | t }}"
+              aria-label="{{ 'newsletter.label' | t }}"
+              required
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              data-entry-input
+              {% if form.errors %}
+                autofocus
+                aria-invalid="true"
+                aria-describedby="LuxuryComingSoonForm-email-error"
+              {% endif %}
+            >
+            <span class="{{ entry_cursor_class }}" data-entry-cursor aria-hidden="true"></span>
+            <span class="entry-line"></span>
+          </div>
+
+          {%- if form.errors -%}
+            <p class="entry-error" id="LuxuryComingSoonForm-email-error" role="status">
+              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+            </p>
+          {%- endif -%}
+        {%- endform -%}
+
+        <div class="entry-success{% if entry_state == 'success' %} is-active{% endif %}" data-entry-success>
+          <p class="entry-success-text" role="status" tabindex="-1">
+            {{ success_message | escape }}
+          </p>
         </div>
 
-        {%- if form.errors -%}
-          <p class="luxury-coming-soon__message luxury-coming-soon__message--error" id="LuxuryComingSoonForm-email-error">
-            {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
-          </p>
-        {%- endif -%}
-      {%- endif -%}
-    {%- endform -%}
+      </div>
+
+    </div>
   </div>
+
+  {%- if footer_left != blank or footer_right != blank -%}
+    <div class="footline">
+      {%- if footer_left != blank -%}
+        <span>{{ footer_left | escape }}</span>
+      {%- endif -%}
+      {%- if footer_left != blank and footer_right != blank -%}
+        <div class="dot"></div>
+      {%- endif -%}
+      {%- if footer_right != blank -%}
+        <span>{{ footer_right | escape }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
 </div>
 
 {% schema %}
@@ -162,9 +276,20 @@
   "name": "t:sections.luxury-coming-soon.name",
   "settings": [
     {
+      "type": "video",
+      "id": "background_video",
+      "label": "t:sections.luxury-coming-soon.settings.background_video.label"
+    },
+    {
       "type": "image_picker",
       "id": "background_image",
       "label": "t:sections.luxury-coming-soon.settings.background_image.label"
+    },
+    {
+      "type": "text",
+      "id": "pre_label",
+      "label": "t:sections.luxury-coming-soon.settings.pre_label.label",
+      "default": "Drop 01 · The Signature Collection"
     },
     {
       "type": "text",
@@ -174,15 +299,39 @@
     },
     {
       "type": "text",
-      "id": "subtitle",
-      "label": "t:sections.luxury-coming-soon.settings.subtitle.label",
-      "default": "The Architecture of Rest. Arriving Soon in North America."
+      "id": "scarcity_statement",
+      "label": "t:sections.luxury-coming-soon.settings.scarcity_statement.label",
+      "default": "Batch 01. Forty Numbered Sets."
+    },
+    {
+      "type": "text",
+      "id": "finality_line",
+      "label": "t:sections.luxury-coming-soon.settings.finality_line.label",
+      "default": "When the forty are claimed, the archive closes. There will not be a second run."
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "t:sections.luxury-coming-soon.settings.button_label.label",
-      "default": "Request access"
+      "default": "Request Entry"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "t:sections.luxury-coming-soon.settings.success_message.label",
+      "default": "Access secured. The archive awaits."
+    },
+    {
+      "type": "text",
+      "id": "footer_left",
+      "label": "t:sections.luxury-coming-soon.settings.footer_left.label",
+      "default": "Crafted in the Nile Delta"
+    },
+    {
+      "type": "text",
+      "id": "footer_right",
+      "label": "t:sections.luxury-coming-soon.settings.footer_right.label",
+      "default": "Refined in the UK"
     },
     {
       "type": "color_scheme",
