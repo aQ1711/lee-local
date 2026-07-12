@@ -1,29 +1,22 @@
 {
+  "layout": "password",
   "sections": {
-    "atelier_portal": {
-      "type": "atelier-homepage-portal",
-      "blocks": {
-        "index-link-1": { "type": "index_link", "settings": {} },
-        "index-link-2": { "type": "index_link", "settings": {} },
-        "index-link-3": { "type": "index_link", "settings": {} },
-        "index-link-4": { "type": "index_link", "settings": {} },
-        "index-link-5": { "type": "index_link", "settings": {} },
-        "index-link-6": { "type": "index_link", "settings": {} }
-      },
-      "block_order": [
-        "index-link-1",
-        "index-link-2",
-        "index-link-3",
-        "index-link-4",
-        "index-link-5",
-        "index-link-6"
-      ],
+    "main": {
+      "type": "luxury-coming-soon",
       "settings": {
-        "color_scheme": "scheme-1"
+        "pre_label": "Drop 01 · The Signature Collection",
+        "headline": "Leehaf",
+        "scarcity_statement": "Batch 01. Forty Numbered Sets.",
+        "finality_line": "When the forty are claimed, the archive closes. There will not be a second run.",
+        "button_label": "Request Entry",
+        "success_message": "Access secured. The archive awaits.",
+        "footer_left": "Crafted in the Nile Delta",
+        "footer_right": "Refined in the UK",
+        "color_scheme": "scheme-4"
       }
     }
   },
   "order": [
-    "atelier_portal"
+    "main"
   ]
 }

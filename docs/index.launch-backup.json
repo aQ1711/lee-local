@@ -1,0 +1,30 @@
+{
+  "_comment": "SAVED FOR LAUNCH DAY. This is the real Atelier Homepage Portal content that was in templates/index.json before it was temporarily replaced with the luxury-coming-soon gate page for pre-launch. Shopify does NOT read this file automatically (the homepage only ever uses templates/index.json) -- when you're ready to go live, copy everything below the _comment key into templates/index.json, replacing what's there, then push/publish.",
+  "sections": {
+    "atelier_portal": {
+      "type": "atelier-homepage-portal",
+      "blocks": {
+        "index-link-1": { "type": "index_link", "settings": {} },
+        "index-link-2": { "type": "index_link", "settings": {} },
+        "index-link-3": { "type": "index_link", "settings": {} },
+        "index-link-4": { "type": "index_link", "settings": {} },
+        "index-link-5": { "type": "index_link", "settings": {} },
+        "index-link-6": { "type": "index_link", "settings": {} }
+      },
+      "block_order": [
+        "index-link-1",
+        "index-link-2",
+        "index-link-3",
+        "index-link-4",
+        "index-link-5",
+        "index-link-6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "atelier_portal"
+  ]
+}
