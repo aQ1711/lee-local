@@ -34,7 +34,7 @@
           "type": "variant_picker",
           "settings": {
             "picker_type": "button",
-            "swatch_shape": "none"
+            "swatch_shape": "circle"
           }
         },
         "buy_buttons": {
@@ -113,6 +113,27 @@
         "padding_bottom": 24
       }
     },
+    "statement": {
+      "type": "rich-text",
+      "blocks": {
+        "quote": {
+          "type": "heading",
+          "settings": {
+            "heading": "Sleep is where luxury is truly private. Batch 01 was made for exactly forty beds — because sateen this fine can't be rushed, and neither should you be.",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": ["quote"],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -135,6 +156,7 @@
   "order": [
     "hero",
     "main",
+    "statement",
     "related-products"
   ]
 }

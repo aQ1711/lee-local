@@ -20,6 +20,7 @@
 {%- liquid
   assign image = section.settings.image
   assign tagline = section.settings.tagline
+  assign eyebrow = section.settings.eyebrow
 -%}
 
 <div class="product-hero color-{{ section.settings.color_scheme }}">
@@ -53,27 +54,35 @@
   </div>
 
   <div class="product-hero__content">
+    {%- if eyebrow != blank -%}
+      <p class="product-hero__eyebrow">{{ eyebrow | escape }}</p>
+    {%- endif -%}
+
     <h1 class="product-hero__title">{{ product.title | escape }}</h1>
 
     {%- if tagline != blank -%}
       <p class="product-hero__tagline">{{ tagline | escape }}</p>
     {%- endif -%}
+  </div>
 
+  <div class="product-hero__bottom-bar">
     <button type="button" class="product-hero__scroll-cue" data-product-hero-scroll-cue>
-      <span>{{ 'products.product.scroll_to_discover' | t }}</span>
       <span class="product-hero__scroll-arrow" aria-hidden="true"></span>
+      <span>{{ 'products.product.scroll_to_discover' | t }}</span>
     </button>
 
-    {%- if product.price_min > 0 -%}
-      <p class="product-hero__price">
-        <span class="product-hero__price-label">{{ 'products.product.starting_from' | t }}</span>
-        {{ product.price_min | money }}
-      </p>
-    {%- endif -%}
+    <div class="product-hero__bottom-right">
+      {%- if product.price_min > 0 -%}
+        <p class="product-hero__price">
+          <span class="product-hero__price-label">{{ 'products.product.starting_from' | t }}</span>
+          {{ product.price_min | money }}
+        </p>
+      {%- endif -%}
 
-    <button type="button" class="product-hero__shop-button" data-product-hero-scroll-cue>
-      {{ 'products.product.shop' | t }}
-    </button>
+      <button type="button" class="product-hero__shop-button" data-product-hero-scroll-cue>
+        {{ 'products.product.shop' | t }}
+      </button>
+    </div>
   </div>
 </div>
 
@@ -88,6 +97,12 @@
       "id": "image",
       "label": "t:sections.product-hero.settings.image.label",
       "info": "t:sections.product-hero.settings.image.info"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:sections.product-hero.settings.eyebrow.label",
+      "default": "The Leehaf Collection"
     },
     {
       "type": "text",

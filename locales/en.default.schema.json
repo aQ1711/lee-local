@@ -371,6 +371,9 @@
           "label": "Background image",
           "info": "Falls back to the product's featured image if left blank."
         },
+        "eyebrow": {
+          "label": "Eyebrow label"
+        },
         "tagline": {
           "label": "Tagline"
         }
